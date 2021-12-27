@@ -1,0 +1,9 @@
+<VirtualHost *:80 *:8080>
+ServerAdmin webmaster@localhost
+DocumentRoot <%= @node['wordpress']['wp_path'] %>
+<Directory <%= @node['wordpress']['server_path'] %>>
+Require all granted
+</Directory>
+ErrorLog ${APACHE_LOG_DIR}/error.log
+CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
