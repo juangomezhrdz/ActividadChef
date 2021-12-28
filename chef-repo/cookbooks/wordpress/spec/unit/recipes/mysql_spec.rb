@@ -10,5 +10,10 @@ describe 'wordpress::mysql' do
     it 'Acción de reiniciar Apache2' do
       expect(chef_run).to restart_service('apache2')
     end
-    
+
+    platform 'centos'
+
+    it 'Acción de reiniciar Apache2' do
+      expect(chef_run).to restart_service('httpd')
+    end
 end

@@ -1,6 +1,13 @@
+case node['platform'] 
+  when "ubuntu"
+      serviceName = "mysql"
+  when "centos"
+      serviceName = "mysqld"
+end
+
 package 'mysql-server'
 
-service 'mysqld' do
+service "#{serviceName}" do
   supports status: true, restart: true, reload: true
   action [:enable, :start]
 end
@@ -31,7 +38,7 @@ execute "importBackup" do
   command "/usr/bin/mysql -uroot < #{node['wordpress']['document_root']}/mysqlConfig/wordpressBackup.sql"
 end
 
-if platform?('ubuntu')
+if node['platform'] == 'ubuntu'
   service 'apache2' do
     action :restart
   end

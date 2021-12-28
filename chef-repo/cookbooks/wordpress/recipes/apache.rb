@@ -20,11 +20,17 @@ end
 
 directory "#{apachePath}/sites-available" do
     mode "0777"
+    not_if do
+        File.exists?("#{apachePath}/sites-available")
+    end
     action :create
 end
 
 directory "#{apachePath}/sites-enabled" do
     mode "0777"
+    not_if do
+        File.exists?("#{apachePath}/sites-enabled")
+    end
     action :create
 end
 
@@ -43,6 +49,6 @@ template "#{apachePath}/sites-available/vagrant.conf" do
 end
   
 link "#{apachePath}/sites-enabled/vagrant.conf" do
-    to '#{apachePath}/sites-available/vagrant.conf'
+    to "#{apachePath}/sites-available/vagrant.conf"
     notifies :restart, resources(:service => "#{packageName}")
 end

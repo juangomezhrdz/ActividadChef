@@ -15,4 +15,15 @@ describe 'wordpress::php' do
         expect(chef_run).to_not install_package('not_php-mysql')
     end
 
+    platform 'centos'
+
+    it 'Acción de Instalar Package/php' do
+        expect(chef_run).to install_package('php')
+        expect(chef_run).to_not install_package('not_php')
+    end
+    it 'Acción de Instalar Package/php' do
+        expect(chef_run).to install_package('php-mysqlnd')
+        expect(chef_run).to_not install_package('php-mysqlnd')
+    end
+    
 end
