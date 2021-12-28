@@ -1,7 +1,7 @@
 case node['platform'] 
   when "ubuntu"
       serviceName = "mysql"
-  when "centos"
+  when "redhat"
       serviceName = "mysqld"
 end
 
