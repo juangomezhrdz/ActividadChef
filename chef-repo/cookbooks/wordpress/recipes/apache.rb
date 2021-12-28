@@ -1,30 +1,46 @@
-package 'apache2'
+case node['platform'] 
+    when "ubuntu"
+        apachePath = "/etc/apache2"
+        portPath = "/etc/apache2/ports.conf"
+        packageName = "apache2"
+    when "centos"
+        apachePath = "/etc/httpd"
+        portPath = "/etc/httpd/conf/httpd.conf"
+        packageName = "httpd"
+end
 
-service 'apache2' do
+package "#{packageName}"
+
+service "#{packageName}" do
     supports status: true, restart: true, reload: true
     action [:enable, :start]
 end
 
-cookbook_file "/etc/apache2/ports.conf" do
-    source "apache/ports.conf"
-    notifies :restart, resources(:service => "apache2")
+directory "#{apachePath}/sites-available" do
+    mode "0777"
+    action :create
 end
 
-cookbook_file "/etc/apache2/default-000.conf" do
-    source "apache/ports.conf"
-    notifies :restart, resources(:service => "apache2")
+directory "#{apachePath}/sites-enabled" do
+    mode "0777"
+    action :create
 end
 
-file '/etc/apache2/sites-enabled/000-default.conf' do
+#cookbook_file "#{portPath}" do
+#    source "apache/ports.conf"
+#    notifies :restart, resources(:service => "#{packageName}")
+#end
+
+file "#{apachePath}/sites-enabled/000-default.conf" do
     action :delete
 end
 
-template '/etc/apache2/sites-available/vagrant.conf' do
+template "#{apachePath}/sites-available/vagrant.conf" do
     source 'virtual-hosts.conf.erb'
-    notifies :restart, resources(:service => "apache2")
+    notifies :restart, resources(:service => "#{packageName}")
 end
   
-link '/etc/apache2/sites-enabled/vagrant.conf' do
-    to '/etc/apache2/sites-available/vagrant.conf'
-    notifies :restart, resources(:service => "apache2")
+link "#{apachePath}/sites-enabled/vagrant.conf" do
+    to '#{apachePath}/sites-available/vagrant.conf'
+    notifies :restart, resources(:service => "#{packageName}")
 end

@@ -1,7 +1,6 @@
 package 'mysql-server'
-package 'mysql-client'
 
-service 'mysql' do
+service 'mysqld' do
   supports status: true, restart: true, reload: true
   action [:enable, :start]
 end
@@ -32,6 +31,12 @@ execute "importBackup" do
   command "/usr/bin/mysql -uroot < #{node['wordpress']['document_root']}/mysqlConfig/wordpressBackup.sql"
 end
 
-service 'apache2' do
-  action :restart
+if platform?('ubuntu')
+  service 'apache2' do
+    action :restart
+  end
+else
+  service 'httpd' do
+    action :restart
+  end
 end
