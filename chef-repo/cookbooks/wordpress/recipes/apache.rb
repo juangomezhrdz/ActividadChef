@@ -1,11 +1,13 @@
 case node['platform'] 
     when "ubuntu"
         apachePath = "/etc/apache2"
-        portPath = "/etc/apache2/ports.conf"
+        fileName = "ports.conf"
+        portPath = "/etc/apache2/#{fileName}"
         packageName = "apache2"
     when "centos"
         apachePath = "/etc/httpd"
-        portPath = "/etc/httpd/conf/httpd.conf"
+        fileName = "httpd.conf"
+        portPath = "/etc/httpd/conf/#{fileName}"
         packageName = "httpd"
 end
 
@@ -26,10 +28,10 @@ directory "#{apachePath}/sites-enabled" do
     action :create
 end
 
-#cookbook_file "#{portPath}" do
-#    source "apache/ports.conf"
-#    notifies :restart, resources(:service => "#{packageName}")
-#end
+cookbook_file "#{portPath}" do
+    source "apache/#{fileName}"
+    notifies :restart, resources(:service => "#{packageName}")
+end
 
 file "#{apachePath}/sites-enabled/000-default.conf" do
     action :delete

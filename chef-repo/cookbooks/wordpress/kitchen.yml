@@ -5,7 +5,7 @@ provisioner:
   name: chef_zero
 
 platforms:
-#  - name: ubuntu-18.04
+  - name: ubuntu-18.04
   - name: centos-8
 
 suites:
