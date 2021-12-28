@@ -1,8 +1,10 @@
 case node['platform'] 
   when "ubuntu"
-      serviceName = "mysql"
-  when "redhat"
-      serviceName = "mysqld"
+    serviceName = "mysql"
+  when "centos"
+    serviceName = "mysqld"
+  else
+    serviceName = "mysqld"
 end
 
 package 'mysql-server'

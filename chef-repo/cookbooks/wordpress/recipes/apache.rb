@@ -4,7 +4,12 @@ case node['platform']
         fileName = "ports.conf"
         portPath = "/etc/apache2/#{fileName}"
         packageName = "apache2"
-    when "redhat"
+    when "centos"
+        apachePath = "/etc/httpd"
+        fileName = "httpd.conf"
+        portPath = "/etc/httpd/conf/#{fileName}"
+        packageName = "httpd"
+    else
         apachePath = "/etc/httpd"
         fileName = "httpd.conf"
         portPath = "/etc/httpd/conf/#{fileName}"
