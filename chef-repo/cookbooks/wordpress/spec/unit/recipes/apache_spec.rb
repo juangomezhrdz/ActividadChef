@@ -14,3 +14,16 @@ describe 'wordpress::apache' do
         expect(chef_run).to start_service('apache2')
       end
 end
+
+describe 'wordpress::apache' do 
+  platform 'redhat'
+
+  it 'Acción de Instalar Package/httpd' do
+      expect(chef_run).to install_package('httpd')
+      expect(chef_run).to_not install_package('not_httpd')
+    end
+
+    it 'Acción que inicia servicio' do
+      expect(chef_run).to start_service('httpd')
+    end
+end

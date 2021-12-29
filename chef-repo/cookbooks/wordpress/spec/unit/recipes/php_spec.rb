@@ -14,5 +14,18 @@ describe 'wordpress::php' do
         expect(chef_run).to install_package('php-mysql')
         expect(chef_run).to_not install_package('not_php-mysql')
     end
+end
+
+describe 'wordpress::php' do 
+    platform 'redhat'
+
+    it 'Acción de Instalar Package/php' do
+        expect(chef_run).to install_package('php')
+        expect(chef_run).to_not install_package('not_php')
+    end
+    it 'Acción de Instalar Package/php-mysql' do
+        expect(chef_run).to install_package('php-mysqlnd')
+        expect(chef_run).to_not install_package('not_php-pear')
+    end
     
 end
