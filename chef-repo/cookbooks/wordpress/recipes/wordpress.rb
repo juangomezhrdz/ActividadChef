@@ -3,23 +3,19 @@ directory "#{node['wordpress']['server_path']}" do
     action :create
 end
 
-directory "#{node['wordpress']['wp_path']}" do
+remote_file 'wordpress' do
+    source 'http://wordpress.org/latest.tar.gz'
     mode '0777'
+    path "#{node['wordpress']['server_path']}/latest.tar.gz"
     action :create
-end
-
-execute "downloadWp" do
-    not_if do
-        File.exists?("latest.tar.gz")
-    end
-    command "curl -O https://wordpress.org/latest.tar.gz"
 end
 
 execute "installWp" do
     not_if do
-        File.exists?("/wordpress/")
+        File.exists?("#{node['wordpress']['server_path']}/wordpress/")
     end
-    command "tar xzvf latest.tar.gz && cp -r /wordpress/* /srv/www/wordpress"
+    cwd "#{node['wordpress']['server_path']}"
+    command "tar xzvf latest.tar.gz"
 end
 
 template "#{node['wordpress']['wp_path']}/wp-config.php" do

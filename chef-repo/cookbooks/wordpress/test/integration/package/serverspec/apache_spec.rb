@@ -9,10 +9,7 @@ if os[:family] == 'ubuntu'
     describe service('apache2') do
         it { should be_running }
     end
-    
-    describe port(8080) do
-        it { should be_listening }
-    end
+        
 elsif os[:family] == 'redhat' 
     #packages installed
     describe package('httpd') do 
@@ -22,8 +19,8 @@ elsif os[:family] == 'redhat'
     describe service('httpd') do
         it { should be_running }
     end
-    
-    describe port(8080) do
-        it { should be_listening }
-    end
+end
+
+describe port(8080) do
+    it { should be_listening }
 end

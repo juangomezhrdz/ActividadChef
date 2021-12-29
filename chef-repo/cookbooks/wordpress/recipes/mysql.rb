@@ -24,16 +24,18 @@ directory "#{node['wordpress']['document_root']}/mysqlConfig" do
   action :create
 end
 
-cookbook_file "#{node['wordpress']['document_root']}/mysqlConfig/commands.sql" do
-  source '/mysql/commands.sql'
-end
-
 cookbook_file "#{node['wordpress']['document_root']}/mysqlConfig/wordpressBackup.sql" do
   source '/mysql/wordpressBackup.sql'
 end
 
-execute "createUser" do
-  command "/usr/bin/mysql -uroot < #{node['wordpress']['document_root']}/mysqlConfig/commands.sql"
+bash 'configMysql' do
+  user 'root'
+  code <<-EOH
+    sudo mysql
+    CREATE USER IF NOT EXISTS 'username'@'localhost' IDENTIFIED BY 'anothersecurepassword';
+    CREATE DATABASE IF NOT EXISTS wordpress;
+    GRANT ALL ON *.* to 'username'@'localhost';
+  EOH
 end
 
 execute "importBackup" do

@@ -15,7 +15,7 @@ end
 describe 'wordpress::mysql' do 
   platform 'redhat'
 
-  it 'Acción de Instalar Package/mariadb-server' do
+    it 'Acción de Instalar Package/mariadb-server' do
     expect(chef_run).to install_package('mysql-server')
     expect(chef_run).to_not install_package('not_mysql-server')
     end

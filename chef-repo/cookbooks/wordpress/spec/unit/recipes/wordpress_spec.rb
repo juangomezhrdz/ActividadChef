@@ -2,8 +2,8 @@ require 'chefspec'
 describe 'wordpress::wordpress' do 
     platform 'ubuntu'
 
-    it 'Acción descomprimir wordpress y cp ' do
-      expect(chef_run).to run_execute('tar xzvf latest.tar.gz && cp -r /wordpress/* /srv/www/wordpress')
+    it 'Acción Descargar Wordpress ' do
+      expect(chef_run).to create_remote_file('wordpress').with(path: "/srv/www/latest.tar.gz")
     end
 
     it 'Acción Crear template de config ' do
@@ -15,8 +15,8 @@ end
 describe 'wordpress::wordpress' do 
   platform 'redhat'
 
-  it 'Acción descomprimir wordpress y cp ' do
-    expect(chef_run).to run_execute('tar xzvf latest.tar.gz && cp -r /wordpress/* /srv/www/wordpress')
+  it 'Acción Descargar Wordpress ' do
+    expect(chef_run).to create_remote_file('wordpress').with(path: "/srv/www/latest.tar.gz")
   end
 
   it 'Acción Crear template de config ' do
