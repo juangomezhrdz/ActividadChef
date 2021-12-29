@@ -25,3 +25,13 @@ end
 template "#{node['wordpress']['wp_path']}/wp-config.php" do
     source "wp-config-template.conf.erb"
 end
+
+if node['platform'] == 'ubuntu'
+    service 'apache2' do
+      action :restart
+    end
+  else
+    service 'httpd' do
+      action :restart
+    end
+end
